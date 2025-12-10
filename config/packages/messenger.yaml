@@ -1,0 +1,25 @@
+framework:
+  messenger:
+    default_bus: messenger.bus.default
+    transports:
+      async:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          exchange:
+            name: notifications
+            type: topic
+          queues:
+            email:
+              binding_keys: ['notification.email.#']
+            sms:
+              binding_keys: ['notification.sms.#']
+            push:
+              binding_keys: ['notification.push.#']
+        retry_strategy:
+          max_retries: 3
+          delay: 5
+
+    routing:
+      'App\Domain\Notification\Message\EmailNotification': async
+      'App\Domain\Notification\Message\SmsNotification': async
+      'App\Domain\Notification\Message\PushNotification': async
