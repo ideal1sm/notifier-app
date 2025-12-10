@@ -40,6 +40,8 @@ services:
     depends_on:
       - rabbitmq
       - postgres
+    ports:
+      - "8000:9000"
 
   consumer:
     build:
