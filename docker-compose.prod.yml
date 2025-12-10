@@ -18,8 +18,8 @@ services:
     container_name: rabbitmq_exporter
     environment:
       RABBITMQ_URL: "http://rabbitmq:15672"
-      RABBITMQ_USER: "${RABBITMQ_USER}"
-      RABBITMQ_PASS: "${RABBITMQ_PASS}"
+      RABBITMQ_USER: prometheus
+      RABBITMQ_PASS: prom_password
     ports:
       - "9419:9419"
     networks:
