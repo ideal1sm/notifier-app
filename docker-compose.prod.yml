@@ -32,6 +32,8 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
     container_name: notification_app
+    ports:
+      - "9000:9000"
     working_dir: /app
     volumes:
       - .:/app
