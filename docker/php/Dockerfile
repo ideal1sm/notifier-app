@@ -14,3 +14,5 @@ WORKDIR /app
 COPY . .
 
 RUN composer install --no-interaction --prefer-dist --no-scripts
+
+CMD ["php", "-S", "0.0.0.0:9000", "-t", "public"]
