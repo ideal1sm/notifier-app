@@ -14,5 +14,3 @@ WORKDIR /app
 COPY . .
 
 RUN composer install --no-interaction --prefer-dist --no-scripts
-
-CMD ["php-fpm"]

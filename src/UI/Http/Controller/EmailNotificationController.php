@@ -55,7 +55,7 @@ final class EmailNotificationController
 
         $this->notificationRepository->save($notificationEntity);
 
-        $notification = new EmailNotification($dto->getRecipient(), $dto->getSubject(), $dto->getContent());
+        $notification = new EmailNotification($notificationEntity->getId(), $dto->getRecipient(), $dto->getSubject(), $dto->getContent());
 
         $this->sender->send($notification);
 

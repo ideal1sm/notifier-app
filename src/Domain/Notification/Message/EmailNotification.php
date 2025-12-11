@@ -7,11 +7,24 @@ namespace App\Domain\Notification\Message;
 class EmailNotification implements NotificationInterface
 {
     public function __construct(
+        private int $id,
         private string $recipient,
         private string $subject,
         private string $content,
         private \DateTimeImmutable $createdAt = new \DateTimeImmutable()
     ) {
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getRecipient(): string
