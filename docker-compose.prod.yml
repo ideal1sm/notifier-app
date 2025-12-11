@@ -74,7 +74,6 @@ services:
       - app_network
     depends_on:
       - node_exporter
-      - rabbitmq_exporter
     restart: always
 
   grafana:
