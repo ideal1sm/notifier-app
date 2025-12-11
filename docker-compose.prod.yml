@@ -60,6 +60,16 @@ services:
       - rabbitmq
     restart: always
 
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog_prod
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - app_network
+
   # ---------------- MONITORING ----------------
 
 
