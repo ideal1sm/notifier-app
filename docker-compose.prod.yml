@@ -63,7 +63,7 @@ services:
     image: kbudde/rabbitmq-exporter:latest
     container_name: rabbitmq_exporter
     environment:
-      RABBITMQ_URL: "http://prometheus:prom_password@rabbitmq:15672/"
+      RABBITMQ_URL: "http://prometheus:prom_password@rabbitmq:5672/"
     ports:
       - "9419:9419"
     networks:
