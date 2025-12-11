@@ -5,17 +5,27 @@ declare(strict_types=1);
 namespace App\UI\Http\Controller;
 
 use App\Application\DTO\SmsNotificationRequest;
+use App\Application\Service\ApiResponder;
+use App\Application\Service\RequestValidator;
+use App\Domain\Entity\Notification;
+use App\Domain\Notification\Message\SmsNotification;
+use App\Domain\Notification\Service\NotificationSender;
+use App\Domain\Repository\NotificationRepository;
+use App\Domain\Repository\NotificationTypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/notifications/sms', name: 'notifications_sms', methods: ['POST'])]
 final class SmsNotificationController
 {
-    public function __construct(private readonly ValidatorInterface $validator)
-    {
+    public function __construct(
+        private readonly RequestValidator $validator,
+        private readonly ApiResponder $responder,
+        private readonly NotificationSender $sender,
+        private readonly NotificationRepository $notificationRepository,
+        private readonly NotificationTypeRepository $notificationTypeRepository
+    ) {
     }
 
     public function __invoke(Request $request): JsonResponse
@@ -23,31 +33,34 @@ final class SmsNotificationController
         $data = json_decode($request->getContent() ?: '{}', true);
 
         $dto = new SmsNotificationRequest(
-            $data['recipient'] ?? '',
-            $data['content'] ?? ''
+            $data['phoneNumber'] ?? '',
+            $data['content'] ?? '',
+            $data['subject'] ?? '',
         );
 
-        $errors = $this->validator->validate($dto);
-        if (count($errors) > 0) {
-            return $this->validationErrorResponse($errors);
+        if ($errorResponse = $this->validator->validate($dto)) {
+            return $errorResponse;
         }
 
-        // TODO: dispatch command or call Sender
-
-        return new JsonResponse(['status' => 'queued'], Response::HTTP_ACCEPTED);
-    }
-
-    private function validationErrorResponse($errors): JsonResponse
-    {
-        $payload = [];
-
-        foreach ($errors as $violation) {
-            $payload[] = [
-                'property' => $violation->getPropertyPath(),
-                'message'  => $violation->getMessage(),
-            ];
+        $type = $this->notificationTypeRepository->findOneByName('sms');
+        if (!$type) {
+            return $this->responder->error('BAD_REQUEST', 'Notification type not found');
         }
 
-        return new JsonResponse(['errors' => $payload], Response::HTTP_BAD_REQUEST);
+        $notificationEntity = new Notification(
+            type: $type,
+            recipient: $dto->getPhoneNumber(),
+            content: $dto->getContent(),
+            subject: $dto->getSubject()
+        );
+
+        $this->notificationRepository->save($notificationEntity);
+
+        $notification = new SmsNotification($notificationEntity->getId(), $dto->getPhoneNumber(), $dto->getSubject(), $dto->getContent());
+
+        $this->sender->send($notification);
+
+        return $this->responder->success('Sms notification queued');
     }
+
 }

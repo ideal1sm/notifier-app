@@ -12,7 +12,7 @@ final class PushNotificationRequest
         #[Assert\NotBlank]
         private readonly string $deviceToken,
         #[Assert\NotBlank]
-        private readonly string $title,
+        private readonly string $subject,
         #[Assert\NotBlank]
         private readonly string $content
     ) {
@@ -23,9 +23,9 @@ final class PushNotificationRequest
         return $this->deviceToken;
     }
 
-    public function getTitle(): string
+    public function getSubject(): string
     {
-        return $this->title;
+        return $this->subject;
     }
 
     public function getContent(): string

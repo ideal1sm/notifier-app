@@ -11,16 +11,23 @@ final class SmsNotificationRequest
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Regex(pattern: '/^\+?[0-9]{7,15}$/', message: 'Invalid phone number format')]
-        private readonly string $recipient,
+        private readonly string $phoneNumber,
+        #[Assert\NotBlank]
+        private readonly string $subject,
         #[Assert\NotBlank]
         #[Assert\Length(max: 480, maxMessage: 'SMS too long')]
         private readonly string $content
     ) {
     }
 
-    public function getRecipient(): string
+    public function getPhoneNumber(): string
     {
-        return $this->recipient;
+        return $this->phoneNumber;
+    }
+
+    public function getSubject(): string
+    {
+        return $this->subject;
     }
 
     public function getContent(): string
