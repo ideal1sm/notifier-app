@@ -1,7 +1,7 @@
 
 COMPOSE_FILE ?= docker-compose.local.yml
 
-DC = docker-compose -f $(COMPOSE_FILE)
+DC = docker compose -f $(COMPOSE_FILE)
 
 # ==========================
 # Общие команды
