@@ -60,6 +60,6 @@ final class PushNotificationController
 
         $this->sender->send($notification);
 
-        return $this->responder->success('Push notification queued');
+        return $this->responder->success('Push notification queued!');
     }
 }

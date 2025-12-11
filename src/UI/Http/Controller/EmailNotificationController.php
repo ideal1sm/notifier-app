@@ -59,6 +59,6 @@ final class EmailNotificationController
 
         $this->sender->send($notification);
 
-        return $this->responder->success('Email notification queued');
+        return $this->responder->success('Email notification queued!');
     }
 }

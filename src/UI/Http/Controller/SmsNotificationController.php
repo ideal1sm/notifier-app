@@ -60,7 +60,7 @@ final class SmsNotificationController
 
         $this->sender->send($notification);
 
-        return $this->responder->success('Sms notification queued');
+        return $this->responder->success('Sms notification queued!');
     }
 
 }
