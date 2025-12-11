@@ -30,7 +30,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: docker/php/Dockerfile
+      dockerfile: docker/local/php/Dockerfile
     container_name: notification_app
     working_dir: /app
     ports:
@@ -59,7 +59,7 @@ services:
   consumer:
     build:
       context: .
-      dockerfile: docker/php/Dockerfile
+      dockerfile: docker/local/php/Dockerfile
     container_name: notification_consumer
     working_dir: /app
     command: >

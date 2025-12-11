@@ -33,7 +33,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: docker/php/Dockerfile
+      dockerfile: docker/production/php/Dockerfile
     container_name: notification_app
     ports:
       - "9000:9000"
@@ -48,7 +48,7 @@ services:
   consumer:
     build:
       context: .
-      dockerfile: docker/php/Dockerfile
+      dockerfile: docker/production/php/Dockerfile
     container_name: notification_consumer
     working_dir: /app
     command: php bin/console messenger:consume async -vv
@@ -69,7 +69,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./docker/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./docker/production/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     networks:
       - app_network
     depends_on:
