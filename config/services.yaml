@@ -21,3 +21,5 @@ services:
     App\UI\Http\Controller\:
       resource: '../src/UI/Http/Controller'
       public: true
+      bind:
+          $validator: '@App\Application\Service\RequestValidator'
