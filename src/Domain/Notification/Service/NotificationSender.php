@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Notification\Service;
 
 use App\Domain\Notification\Message\EmailNotification;
+use App\Domain\Notification\Message\ErrorNotification;
 use App\Domain\Notification\Message\NotificationInterface;
 use App\Domain\Notification\Message\PushNotification;
 use App\Domain\Notification\Message\SmsNotification;
@@ -20,7 +21,7 @@ class NotificationSender
     public function send(NotificationInterface $notification): void
     {
         $routingKey = match (true) {
-            $notification instanceof EmailNotification => 'notification.email',
+            $notification instanceof EmailNotification, $notification instanceof ErrorNotification => 'notification.email',
             $notification instanceof SmsNotification   => 'notification.sms',
             $notification instanceof PushNotification  => 'notification.push',
             default => throw new \InvalidArgumentException('Unknown notification type')

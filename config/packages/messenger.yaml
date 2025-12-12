@@ -17,7 +17,7 @@ framework:
               binding_keys: ['notification.push.#']
         retry_strategy:
           max_retries: 3
-          delay: 5
+          delay: 30
 
     routing:
       'App\Domain\Notification\Message\EmailNotification': async

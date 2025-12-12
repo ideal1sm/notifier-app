@@ -194,6 +194,14 @@ flowchart LR
 }
 ```
 
+## Ссылки на проект
+
+https://super-notifier-app.tech/ - Web часть<br>
+http://89.23.97.42:3000/ - Grafana<br>
+http://89.23.97.42:15672/ - Rabbit UI<br>
+http://89.23.97.42:9090/ - Prometheus<br>
+http://89.23.97.42:8025/ - MailHog<br>
+
 ## Примеры логов и сообщений
 
 
